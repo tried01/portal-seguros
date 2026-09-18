@@ -11,13 +11,30 @@
     <div class="submenu" id="inicio-polizas">
         <div class="nivel" data-objetivo="inicio-modelos">Modelos</div>
         <div class="submenu" id="inicio-modelos">
-            {% for seguro_id in seguros %}
-            <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="tarjeta-seguro tarjeta">
-                <h3>{{ seguros[seguro_id].nombre }}</h3>
-                <p>{{ seguros[seguro_id].descripcion }}</p>
-                <span class="enlace">Hacer tramite &raquo;</span>
-            </a>
-            {% endfor %}
+            <div class="nivel" data-objetivo="inicio-basico">Básico</div>
+            <div class="submenu" id="inicio-basico" style="display:block;">
+                <div class="grid-seguros" style="margin-top:10px;">
+                    {% for seguro_id in seguros %}{% if seguros[seguro_id].categoria == 'basico' %}
+                    <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="tarjeta-seguro tarjeta">
+                        <h3>{{ seguros[seguro_id].nombre }}</h3>
+                        <p>{{ seguros[seguro_id].descripcion }}</p>
+                        <span class="enlace">Hacer tramite &raquo;</span>
+                    </a>
+                    {% endif %}{% endfor %}
+                </div>
+            </div>
+            <div class="nivel" data-objetivo="inicio-completo" style="margin-top:10px;">Completo</div>
+            <div class="submenu" id="inicio-completo" style="display:block;">
+                <div class="grid-seguros" style="margin-top:10px;">
+                    {% for seguro_id in seguros %}{% if seguros[seguro_id].categoria == 'completo' %}
+                    <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="tarjeta-seguro tarjeta">
+                        <h3>{{ seguros[seguro_id].nombre }}</h3>
+                        <p>{{ seguros[seguro_id].descripcion }}</p>
+                        <span class="enlace">Hacer tramite &raquo;</span>
+                    </a>
+                    {% endif %}{% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

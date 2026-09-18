@@ -28,9 +28,18 @@
                 <div class="submenu" id="sub-polizas">
                     <div class="nivel" data-objetivo="sub-modelos">Modelos</div>
                     <div class="submenu" id="sub-modelos">
-                        {% for seguro_id in seguros %}
-                        <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="nivel sin-flecha">{{ seguros[seguro_id].nombre }}</a>
-                        {% endfor %}
+                        <div class="nivel" data-objetivo="sub-basico" style="font-size:13px; opacity:.85;">Básico</div>
+                        <div class="submenu" id="sub-basico">
+                            {% for seguro_id in seguros %}{% if seguros[seguro_id].categoria == 'basico' %}
+                            <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="nivel sin-flecha">{{ seguros[seguro_id].nombre }}</a>
+                            {% endif %}{% endfor %}
+                        </div>
+                        <div class="nivel" data-objetivo="sub-completo" style="font-size:13px; opacity:.85;">Completo</div>
+                        <div class="submenu" id="sub-completo">
+                            {% for seguro_id in seguros %}{% if seguros[seguro_id].categoria == 'completo' %}
+                            <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="nivel sin-flecha">{{ seguros[seguro_id].nombre }}</a>
+                            {% endif %}{% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>

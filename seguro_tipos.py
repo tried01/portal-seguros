@@ -36,15 +36,17 @@ MAPPING = {
 }
 
 ESTADOS = [
-    ("auto", "Falcon TX", "plantilla_auto.pdf", "16:50 PM CT", "TX"),
-    ("auto_az", "Falcon AZ", "SG_FIC_ARIZONA_CORTO.pdf", "12:00 PM CT", "AZ"),
-    ("auto_co", "Falcon CO", "SG_FIC_COLORADO_CORTO.pdf", "05:00 PM CT", "CO"),
-    ("auto_ga", "Falcon GA", "SG_FIC_GEORGIA_CORTO.pdf", "06:00 PM CT", "GA"),
-    ("auto_il", "Falcon IL", "SG_FIC_ILINOIS_CORTO.pdf", "01:00 PM CT", "IL"),
-    ("auto_ne", "Falcon NE", "SG_FIC_NEBRASKA.pdf", "05:00 PM CT", "NE"),
-    ("auto_nm", "Falcon NM", "SG_FIC_NEW.MEXICO.pdf", "04:00 PM CT", "NM"),
-    ("auto_ut", "Falcon UT", "SG_FIC_UTAH_CORTO.pdf", "08:00 AM CT", "UT"),
-    ("auto_wa", "Falcon WA", "SG_FIC_WASHINGTON_CORTO.pdf", "06:00 PM CT", "WA"),
+    ("auto", "Falcon TX", "plantilla_auto.pdf", "16:50 PM CT", "TX", "basico"),
+    ("auto_az", "Falcon AZ", "SG_FIC_ARIZONA_CORTO.pdf", "12:00 PM CT", "AZ", "basico"),
+    ("auto_co", "Falcon CO", "SG_FIC_COLORADO_CORTO.pdf", "05:00 PM CT", "CO", "basico"),
+    ("auto_ga", "Falcon GA", "SG_FIC_GEORGIA_CORTO.pdf", "06:00 PM CT", "GA", "basico"),
+    ("auto_il", "Falcon IL", "SG_FIC_ILINOIS_CORTO.pdf", "01:00 PM CT", "IL", "basico"),
+    ("auto_ne", "Falcon NE", "SG_FIC_NEBRASKA.pdf", "05:00 PM CT", "NE", "basico"),
+    ("auto_nm", "Falcon NM", "SG_FIC_NEW.MEXICO.pdf", "04:00 PM CT", "NM", "basico"),
+    ("auto_ut", "Falcon UT", "SG_FIC_UTAH_CORTO.pdf", "08:00 AM CT", "UT", "basico"),
+    ("auto_wa", "Falcon WA", "SG_FIC_WASHINGTON_CORTO.pdf", "06:00 PM CT", "WA", "basico"),
+    # Modelos completos — agrega aquí los nuevos PDFs completos
+    ("auto_completo_tx", "Falcon Completo TX", "SG_FIC_TEXAS_COMPLETO.pdf", "16:50 PM CT", "TX", "completo"),
 ]
 
 SEGUROS = {
@@ -54,10 +56,11 @@ SEGUROS = {
         "plantilla": plantilla,
         "tipo_plantilla": "tarjeta",
         "codigo_estado": codigo,
+        "categoria": categoria,
         "campos": _campos(hora),
         "mapping": dict(MAPPING),
     }
-    for seguro_id, nombre, plantilla, hora, codigo in ESTADOS
+    for seguro_id, nombre, plantilla, hora, codigo, categoria in ESTADOS
 }
 
 
