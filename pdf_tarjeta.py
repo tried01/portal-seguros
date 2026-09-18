@@ -18,8 +18,12 @@ import pymupdf
 
 FUENTE_REGULAR = "Calibri"
 FUENTE_NEGRITA = "CalibriBold"
-RUTA_CALIBRI = "C:/Windows/Fonts/calibri.ttf"
-RUTA_CALIBRI_BOLD = "C:/Windows/Fonts/calibrib.ttf"
+# Ruta empaquetada (funciona en Windows y Linux/Railway) con fallback a C:/Windows/Fonts
+_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_RUTA_EMPAQUETADA = os.path.join(_BASE_DIR, "fonts", "calibri.ttf")
+_RUTA_EMPAQUETADA_BOLD = os.path.join(_BASE_DIR, "fonts", "calibrib.ttf")
+RUTA_CALIBRI = _RUTA_EMPAQUETADA if os.path.exists(_RUTA_EMPAQUETADA) else "C:/Windows/Fonts/calibri.ttf"
+RUTA_CALIBRI_BOLD = _RUTA_EMPAQUETADA_BOLD if os.path.exists(_RUTA_EMPAQUETADA_BOLD) else "C:/Windows/Fonts/calibrib.ttf"
 
 try:
     _MEDIDOR_REGULAR = pymupdf.Font(fontfile=RUTA_CALIBRI)
@@ -31,8 +35,8 @@ try:
 except Exception:
     _MEDIDOR_NEGRITA = pymupdf.Font("helv")
 
-RUTA_CALIBRI_REGULAR = "C:/Windows/Fonts/calibri.ttf"
-RUTA_CALIBRI_BOLD_TTF = "C:/Windows/Fonts/calibrib.ttf"
+RUTA_CALIBRI_REGULAR = RUTA_CALIBRI
+RUTA_CALIBRI_BOLD_TTF = RUTA_CALIBRI_BOLD
 
 HORA_EJEMPLO = "16:50 PM CT"
 
