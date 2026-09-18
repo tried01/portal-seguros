@@ -7,7 +7,7 @@
     <p class="subtitulo">{{ seguro.descripcion }}</p>
 </div>
 
-<form method="post" action="{{ url_for('generar', seguro_id=seguro_id) }}" class="form-cotizacion" target="_blank">
+<form id="form-generar" method="post" action="{{ url_for('generar', seguro_id=seguro_id) }}" class="form-cotizacion">
     <div class="grid-formulario">
         {% for campo in seguro.campos %}
         <div class="campo">
@@ -38,8 +38,49 @@
     </div>
 
     <div class="acciones">
-        <button type="submit" class="btn btn-primario btn-grande">Generar e imprimir PDF</button>
+        <button type="submit" id="btn-generar" class="btn btn-primario btn-grande">Generar e imprimir PDF</button>
+        <button type="button" id="btn-whatsapp" class="btn btn-grande" style="display:none; background:#25D366; color:#fff; margin-left:10px;">Enviar por WhatsApp</button>
     </div>
-    <p class="nota">El PDF se imprime al instante en impresion directa. Ningun archivo se guarda y no se puede editar.</p>
+    <p class="nota">El PDF se abre en pestaña nueva e imprime automático. Luego usa el botón WhatsApp para enviarlo.</p>
 </form>
+
+<script>
+let pdfBlob = null;
+let pdfFileName = "tarjeta.pdf";
+document.getElementById('form-generar').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = document.getElementById('btn-generar');
+    btn.disabled = true; btn.textContent = 'Generando...';
+    try {
+        const formData = new FormData(this);
+        const resp = await fetch(this.action, {method:'POST', body: formData});
+        if(!resp.ok) throw new Error('Error al generar');
+        const disp = resp.headers.get('Content-Disposition') || '';
+        const m = disp.match(/filename="([^"]+)"/);
+        if(m) pdfFileName = m[1];
+        pdfBlob = await resp.blob();
+        const url = URL.createObjectURL(pdfBlob);
+        window.open(url, '_blank');
+        const wbtn = document.getElementById('btn-whatsapp');
+        wbtn.style.display = 'inline-block';
+        wbtn.scrollIntoView({behavior:'smooth'});
+    } catch(err){
+        alert('Error: ' + err.message);
+    } finally {
+        btn.disabled = false; btn.textContent = 'Generar e imprimir PDF';
+    }
+});
+document.getElementById('btn-whatsapp').addEventListener('click', async function(){
+    if(!pdfBlob){ alert('Primero genera el PDF'); return; }
+    const file = new File([pdfBlob], pdfFileName, {type:'application/pdf'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+        try { await navigator.share({files:[file], title: pdfFileName, text: 'Te envío tu tarjeta de seguro'}); } catch(e){}
+    } else {
+        // Fallback: descarga y abre WhatsApp Web con mensaje
+        const url = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a'); a.href = url; a.download = pdfFileName; a.click();
+        window.open('https://wa.me/?text=' + encodeURIComponent('Te envío tu tarjeta de seguro ' + pdfFileName), '_blank');
+    }
+});
+</script>
 {% endblock %}
