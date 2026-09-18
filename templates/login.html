@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesion{% endblock %}
+{% block contenido %}
+<div class="panel-login">
+    <div class="tarjeta tarjeta-login">
+        <h1>Portal de Seguros</h1>
+        <p class="subtitulo">Ingresa tus credenciales para tramitar un seguro.</p>
+
+        <form method="post" action="{{ url_for('login') }}">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="username" required autofocus>
+
+            <label for="password">Contrasena</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn btn-primario btn-ancho">Entrar</button>
+        </form>
+
+        <p class="nota">Usuario inicial por defecto: admin / admin123</p>
+    </div>
+</div>
+{% endblock %}

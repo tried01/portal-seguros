@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}{{ seguro.nombre }}{% endblock %}
+{% block contenido %}
+<div class="encabezado-form">
+    <a href="{{ url_for('inicio') }}" class="btn btn-pequeno btn-apagado">&larr; Volver</a>
+    <h2 class="titulo-pagina">{{ seguro.nombre }}</h2>
+    <p class="subtitulo">{{ seguro.descripcion }}</p>
+</div>
+
+<form method="post" action="{{ url_for('generar', seguro_id=seguro_id) }}" class="form-cotizacion" target="_blank">
+    <div class="grid-formulario">
+        {% for campo in seguro.campos %}
+        <div class="campo">
+            <label for="{{ campo.name }}">
+                {{ campo.label }}{% if campo.obligatorio %}<span class="req">*</span>{% endif %}
+            </label>
+
+            {% if campo.tipo == 'select' %}
+            <select id="{{ campo.name }}" name="{{ campo.name }}" {% if campo.obligatorio %}required{% endif %}>
+                <option value="">Seleccione...</option>
+                {% for opcion in campo.opciones %}
+                <option value="{{ opcion }}">{{ opcion }}</option>
+                {% endfor %}
+            </select>
+
+            {% elif campo.name == 'fecha' %}
+            <input type="date" id="{{ campo.name }}" name="{{ campo.name }}" value="{{ fecha_hoy }}"
+                   {% if campo.obligatorio %}required{% endif %}>
+
+            {% else %}
+            <input type="{{ campo.tipo }}" id="{{ campo.name }}" name="{{ campo.name }}"
+                   value="{{ campo.valor or '' }}"
+                   {% if campo.tipo == 'number' %}step="any"{% endif %}
+                   {% if campo.obligatorio %}required{% endif %}>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="acciones">
+        <button type="submit" class="btn btn-primario btn-grande">Generar e imprimir PDF</button>
+    </div>
+    <p class="nota">El PDF se imprime al instante en impresion directa. Ningun archivo se guarda y no se puede editar.</p>
+</form>
+{% endblock %}

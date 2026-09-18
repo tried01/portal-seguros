@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}Tramites{% endblock %}
+{% block contenido %}
+<div class="encabezado-form">
+    <h2 class="titulo-pagina">Tramites</h2>
+    <p class="subtitulo">Bienvenido {{ session.get('nombre') or session.get('usuario') }}. Selecciona una opcion del menu.</p>
+</div>
+
+<div class="grid-seguros">
+    <div class="nivel" data-objetivo="inicio-polizas">Polizas</div>
+    <div class="submenu" id="inicio-polizas">
+        <div class="nivel" data-objetivo="inicio-modelos">Modelos</div>
+        <div class="submenu" id="inicio-modelos">
+            {% for seguro_id in seguros %}
+            <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="tarjeta-seguro tarjeta">
+                <h3>{{ seguros[seguro_id].nombre }}</h3>
+                <p>{{ seguros[seguro_id].descripcion }}</p>
+                <span class="enlace">Hacer tramite &raquo;</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

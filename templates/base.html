@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Portal de Seguros{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if 'usuario' in session %}
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="{{ url_for('inicio') }}" class="marca">Aseguradora</a>
+            <div class="navbar-menu">
+                <span class="usuario">{{ session.get('nombre') or session.get('usuario') }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-pequeno btn-apagado">Cerrar sesion</a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="contenido">
+        {% if 'usuario' in session %}
+        <aside class="menu-lateral">
+            <div class="nivel" data-objetivo="sub-tramites">Tramites</div>
+            <div class="submenu" id="sub-tramites">
+                <div class="nivel" data-objetivo="sub-polizas">Polizas</div>
+                <div class="submenu" id="sub-polizas">
+                    <div class="nivel" data-objetivo="sub-modelos">Modelos</div>
+                    <div class="submenu" id="sub-modelos">
+                        {% for seguro_id in seguros %}
+                        <a href="{{ url_for('formulario', seguro_id=seguro_id) }}" class="nivel sin-flecha">{{ seguros[seguro_id].nombre }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+        {% endif %}
+
+        <div class="main-panel">
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensaje in mensajes %}
+                <div class="alerta {{ categoria }}">{{ mensaje }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block contenido %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.nivel[data-objetivo]').forEach(function (nivel) {
+            nivel.addEventListener('click', function () {
+                var sub = document.getElementById(this.dataset.objetivo);
+                if (sub) {
+                    var abierto = sub.style.display === 'block';
+                    sub.style.display = abierto ? 'none' : 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

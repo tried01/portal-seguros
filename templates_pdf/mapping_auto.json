@@ -1,0 +1,12 @@
+{
+  "numero_poliza": "numero_poliza",
+  "nombre": "nombre",
+  "direccion": "direccion",
+  "codigo_postal": "codigo_postal",
+  "fecha_inicio": "fecha_inicio",
+  "fecha_expiracion": "fecha_expiracion",
+  "marca": "marca",
+  "modelo": "modelo",
+  "anio": "anio",
+  "vin": "vin"
+}
