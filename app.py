@@ -143,6 +143,10 @@ def generar(seguro_id):
     if tipo_plantilla == "tarjeta" and plantilla_existe(ruta_plantilla):
         buffer = generar_tarjeta(ruta_plantilla, datos)
         modo = "tarjeta"
+    elif tipo_plantilla == "completo" and plantilla_existe(ruta_plantilla):
+        from pdf_completo import generar_completo
+        buffer = generar_completo(ruta_plantilla, datos)
+        modo = "completo"
     elif plantilla_existe(ruta_plantilla) and mapping:
         buffer = generar_pdf_relleno(ruta_plantilla, datos, mapping)
         modo = "plantilla"

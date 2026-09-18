@@ -22,6 +22,32 @@ def _campos(hora_por_defecto):
     ]
 
 
+def _campos_completo(hora_por_defecto):
+    # Campos para SG_FIC_CP_Tx.pdf (Amended Policy Declarations) — todo lo marcado en la foto
+    base = _campos(hora_por_defecto)
+    # Campos adicionales específicos del completo
+    extra = [
+        {"name": "processed_date", "label": "Processed Date", "tipo": FECHA, "obligatorio": True},
+        {"name": "agent_number", "label": "Agent Number", "tipo": TEXTO, "obligatorio": False},
+        {"name": "millas", "label": "Millas", "tipo": TEXTO, "obligatorio": False},
+        {"name": "territory", "label": "Territory", "tipo": TEXTO, "obligatorio": False},
+        {"name": "symbol", "label": "Symbol", "tipo": TEXTO, "obligatorio": False},
+        {"name": "veh_total", "label": "Vehicle Total", "tipo": TEXTO, "obligatorio": False},
+        {"name": "total_policy", "label": "Total for Policy Coverages", "tipo": TEXTO, "obligatorio": False},
+        {"name": "total_fees", "label": "TOTAL FEES", "tipo": TEXTO, "obligatorio": False},
+        {"name": "final_total", "label": "FINAL TOTAL", "tipo": TEXTO, "obligatorio": False},
+        {"name": "driver_name", "label": "Driver Name", "tipo": TEXTO, "obligatorio": True},
+        {"name": "driver_type", "label": "Driver Type", "tipo": TEXTO, "obligatorio": False, "valor": "Principal"},
+        {"name": "driver_edad", "label": "Driver Age", "tipo": NUMERO, "obligatorio": False},
+        {"name": "driver_genero", "label": "Driver Gender", "tipo": SELECCION, "obligatorio": False, "opciones": ["Male", "Female", "Other"]},
+        {"name": "driver_status", "label": "Driver Status", "tipo": TEXTO, "obligatorio": False},
+        {"name": "sr22", "label": "SR22", "tipo": SELECCION, "obligatorio": False, "opciones": ["No", "Yes"]},
+        {"name": "points", "label": "Points", "tipo": NUMERO, "obligatorio": False},
+        {"name": "counter_signed", "label": "Counter Signed Date", "tipo": FECHA, "obligatorio": False},
+    ]
+    return base + extra
+
+
 MAPPING = {
     "numero_poliza": "numero_poliza",
     "nombre": "nombre",
@@ -54,10 +80,10 @@ SEGUROS = {
         "nombre": nombre,
         "descripcion": f"Politica de vehiculo {nombre}.",
         "plantilla": plantilla,
-        "tipo_plantilla": "tarjeta" if categoria == "basico" else "generico",
+        "tipo_plantilla": "tarjeta" if categoria == "basico" else "completo",
         "codigo_estado": codigo,
         "categoria": categoria,
-        "campos": _campos(hora),
+        "campos": _campos_completo(hora) if categoria == "completo" else _campos(hora),
         "mapping": dict(MAPPING),
     }
     for seguro_id, nombre, plantilla, hora, codigo, categoria in ESTADOS
