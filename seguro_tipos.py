@@ -17,7 +17,7 @@ def _campos(hora_por_defecto):
         {"name": "hora", "label": "Hora", "tipo": TEXTO, "obligatorio": True, "valor": hora_por_defecto},
         {"name": "marca", "label": "Marca del Vehiculo", "tipo": TEXTO, "obligatorio": True},
         {"name": "modelo", "label": "Modelo", "tipo": TEXTO, "obligatorio": True},
-        {"name": "anio", "label": "Anio", "tipo": NUMERO, "obligatorio": True},
+        {"name": "anio", "label": "Año", "tipo": NUMERO, "obligatorio": True},
         {"name": "vin", "label": "VIN del Vehiculo", "tipo": TEXTO, "obligatorio": True},
     ]
 
