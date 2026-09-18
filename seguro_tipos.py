@@ -46,7 +46,7 @@ ESTADOS = [
     ("auto_ut", "Falcon UT", "SG_FIC_UTAH_CORTO.pdf", "08:00 AM CT", "UT", "basico"),
     ("auto_wa", "Falcon WA", "SG_FIC_WASHINGTON_CORTO.pdf", "06:00 PM CT", "WA", "basico"),
     # Modelos completos — agrega aquí los nuevos PDFs completos
-    ("auto_completo_tx", "Falcon Completo TX", "SG_FIC_TEXAS_COMPLETO.pdf", "16:50 PM CT", "TX", "completo"),
+    ("auto_completo_cp", "Falcon CP TX", "SG_FIC_CP_Tx.pdf", "16:50 PM CT", "TX", "completo"),
 ]
 
 SEGUROS = {
@@ -54,7 +54,7 @@ SEGUROS = {
         "nombre": nombre,
         "descripcion": f"Politica de vehiculo {nombre}.",
         "plantilla": plantilla,
-        "tipo_plantilla": "tarjeta",
+        "tipo_plantilla": "tarjeta" if categoria == "basico" else "generico",
         "codigo_estado": codigo,
         "categoria": categoria,
         "campos": _campos(hora),
