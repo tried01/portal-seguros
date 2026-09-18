@@ -159,11 +159,22 @@ def _dibujar_campo(pagina, rect, texto, fuente, medidor, tope, fin_tinta=None, i
         ancho1 = medidor.text_length(texto, fontsize=1.0)
         tamano = tope if ancho1 <= 0 else max(5.5, min(tope, ancho / ancho1))
     linea_base = (y0 + y1) / 2 + tamano * 0.18
+    # Centrado horizontal solo para la fila YEAR/MAKE/MODEL y VIN (y ~298-310)
+    x_text = x0 + 1
+    try:
+        is_fila_centrar = 295 <= y0 <= 312 and (x1 - x0) < 135
+        if is_fila_centrar:
+            tw = medidor.text_length(texto, fontsize=tamano)
+            x_text = x0 + (x1 - x0 - tw) / 2
+            if x_text < x0 + 1:
+                x_text = x0 + 1
+    except Exception:
+        x_text = x0 + 1
     fontfile = RUTA_CALIBRI_BOLD if fuente == FUENTE_NEGRITA else RUTA_CALIBRI
     if not os.path.exists(fontfile):
         fontfile = None
     pagina.insert_text(
-        (x0 + 1, linea_base),
+        (x_text, linea_base),
         texto,
         fontsize=tamano,
         fontname=fuente if fontfile else "helv",
