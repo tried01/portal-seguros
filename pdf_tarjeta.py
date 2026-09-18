@@ -21,8 +21,15 @@ FUENTE_NEGRITA = "CalibriBold"
 RUTA_CALIBRI = "C:/Windows/Fonts/calibri.ttf"
 RUTA_CALIBRI_BOLD = "C:/Windows/Fonts/calibrib.ttf"
 
-_MEDIDOR_REGULAR = pymupdf.Font(fontfile=RUTA_CALIBRI)
-_MEDIDOR_NEGRITA = pymupdf.Font(fontfile=RUTA_CALIBRI_BOLD)
+try:
+    _MEDIDOR_REGULAR = pymupdf.Font(fontfile=RUTA_CALIBRI)
+except Exception:
+    _MEDIDOR_REGULAR = pymupdf.Font("helv")
+
+try:
+    _MEDIDOR_NEGRITA = pymupdf.Font(fontfile=RUTA_CALIBRI_BOLD)
+except Exception:
+    _MEDIDOR_NEGRITA = pymupdf.Font("helv")
 
 RUTA_CALIBRI_REGULAR = "C:/Windows/Fonts/calibri.ttf"
 RUTA_CALIBRI_BOLD_TTF = "C:/Windows/Fonts/calibrib.ttf"
@@ -148,12 +155,15 @@ def _dibujar_campo(pagina, rect, texto, fuente, medidor, tope, fin_tinta=None, i
         ancho1 = medidor.text_length(texto, fontsize=1.0)
         tamano = tope if ancho1 <= 0 else max(5.5, min(tope, ancho / ancho1))
     linea_base = (y0 + y1) / 2 + tamano * 0.18
+    fontfile = RUTA_CALIBRI_BOLD if fuente == FUENTE_NEGRITA else RUTA_CALIBRI
+    if not os.path.exists(fontfile):
+        fontfile = None
     pagina.insert_text(
         (x0 + 1, linea_base),
         texto,
         fontsize=tamano,
-        fontname=fuente,
-        fontfile=RUTA_CALIBRI_BOLD if fuente == FUENTE_NEGRITA else RUTA_CALIBRI,
+        fontname=fuente if fontfile else "helv",
+        fontfile=fontfile,
         color=(0, 0, 0),
         overlay=True,
     )
