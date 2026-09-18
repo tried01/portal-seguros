@@ -156,12 +156,15 @@ def generar(seguro_id):
     base = os.path.splitext(nombre_archivo)[0]
     buffer = abrir_pdf_para_imprimir(buffer, base)
 
-    return send_file(
+    response = send_file(
         buffer,
         as_attachment=False,
         download_name=nombre_archivo,
         mimetype="application/pdf",
     )
+    # Asegura que al guardar desde el visor del celular use SG_FIC_TX_XXXX.pdf y no "auto.pdf" (URL)
+    response.headers["Content-Disposition"] = f'inline; filename="{nombre_archivo}"; filename*=UTF-8\'\'{nombre_archivo}'
+    return response
 
 
 if __name__ == "__main__":
