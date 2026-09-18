@@ -152,7 +152,16 @@ def generar(seguro_id):
         buffer = generar_pdf_generico(titulo, subtitulo, pares)
         modo = "generico"
 
-    nombre_archivo = nombre_archivo_pdf(seguro.get("codigo_estado", "TX"))
+    # Nombre personalizado si el usuario lo escribió, si no usa el correlativo SG_FIC_TX_XXXX.pdf
+    custom = request.form.get("nombre_archivo_custom", "").strip()
+    if custom:
+        # sanitiza: quita caracteres peligrosos, asegura .pdf
+        custom = re.sub(r'[\\/:*?"<>|]', '', custom)
+        if not custom.lower().endswith(".pdf"):
+            custom += ".pdf"
+        nombre_archivo = custom
+    else:
+        nombre_archivo = nombre_archivo_pdf(seguro.get("codigo_estado", "TX"))
     base = os.path.splitext(nombre_archivo)[0]
     buffer = abrir_pdf_para_imprimir(buffer, base)
 

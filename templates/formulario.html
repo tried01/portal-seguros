@@ -37,6 +37,12 @@
         {% endfor %}
     </div>
 
+    <div class="campo" style="margin-top:18px;">
+        <label for="nombre_archivo_custom">Nombre del archivo (opcional)</label>
+        <input type="text" id="nombre_archivo_custom" name="nombre_archivo_custom" placeholder="Ej: MI_TARJETA_JUAN.pdf">
+        <small style="color:var(--gris-claro); font-size:12px;">Si lo dejas vacío se usa SG_FIC_TX_XXXX.pdf automático. No necesitas poner .pdf</small>
+    </div>
+
     <div class="acciones">
         <button type="submit" id="btn-generar" class="btn btn-primario btn-grande">Generar e imprimir PDF</button>
         <button type="button" id="btn-whatsapp" class="btn btn-grande" style="display:none; background:#25D366; color:#fff; margin-left:10px;">Enviar por WhatsApp</button>
